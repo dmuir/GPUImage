@@ -22,3 +22,5 @@ xcuserdata
 # Documentation
 documentation/*
 
+# Exclude backups
+*~
