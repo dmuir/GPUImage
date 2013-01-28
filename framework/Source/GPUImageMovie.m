@@ -128,17 +128,17 @@
     CGAffineTransform txf = [videoTrack preferredTransform];
     
     if (size.width == txf.tx && size.height == txf.ty)
-        _videoOrientation = UIInterfaceOrientationLandscapeRight;
+        // Landscape Right images need to be rotated 180 degrees
+        _videoOrientation = UIImageOrientationDown;
     else if (txf.tx == 0 && txf.ty == 0)
-//        _videoOrientation = UIInterfaceOrientationLandscapeLeft;
-        // Setting to LandscapeLeft does weird things
-        _videoOrientation = UIInterfaceOrientationLandscapeRight;
+        // Landscape Left images don't need to be rotated
+        _videoOrientation = UIImageOrientationUp;
     else if (txf.tx == 0 && txf.ty == size.width)
-        _videoOrientation = UIInterfaceOrientationPortraitUpsideDown;
+        // Portrait upsidedown images need to be rotated 90 degrees to the left (counter-clockwise)
+        _videoOrientation = UIImageOrientationLeft;
     else
-//        _videoOrientation = UIInterfaceOrientationPortrait;
-        // Setting to Portrait does weird things
-        _videoOrientation = UIInterfaceOrientationLandscapeRight;
+        // Portrait images need to be rotated 90 degrees to the right (clockwise)
+        _videoOrientation = UIImageOrientationRight;
 }
 
 - (void)processAsset

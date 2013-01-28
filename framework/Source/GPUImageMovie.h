@@ -9,7 +9,7 @@
 
 @property (readwrite, retain) AVAsset *asset;
 @property(readwrite, retain) NSURL *url;
-@property (readonly, nonatomic) UIInterfaceOrientation videoOrientation;
+@property (readonly, nonatomic) UIImageOrientation videoOrientation;
 
 /** This enables the benchmarking mode, which logs out instantaneous and average frame times to the console
  */
