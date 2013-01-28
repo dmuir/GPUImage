@@ -21,6 +21,7 @@
 @synthesize asset = _asset;
 @synthesize runBenchmark = _runBenchmark;
 @synthesize playAtActualSpeed = _playAtActualSpeed;
+@synthesize videoOrientation = _videoOrientation;
 
 #pragma mark -
 #pragma mark Initialization and teardown
@@ -113,9 +114,31 @@
         {
             return;
         }
+
+        [self orientationOfVideo:inputAsset];
         self.asset = inputAsset;
         [self processAsset];
     }];
+}
+
+- (void)orientationOfVideo:(AVAsset *)asset
+{
+    AVAssetTrack *videoTrack = [[asset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
+    CGSize size = [videoTrack naturalSize];
+    CGAffineTransform txf = [videoTrack preferredTransform];
+    
+    if (size.width == txf.tx && size.height == txf.ty)
+        _videoOrientation = UIInterfaceOrientationLandscapeRight;
+    else if (txf.tx == 0 && txf.ty == 0)
+//        _videoOrientation = UIInterfaceOrientationLandscapeLeft;
+        // Setting to LandscapeLeft does weird things
+        _videoOrientation = UIInterfaceOrientationLandscapeRight;
+    else if (txf.tx == 0 && txf.ty == size.width)
+        _videoOrientation = UIInterfaceOrientationPortraitUpsideDown;
+    else
+//        _videoOrientation = UIInterfaceOrientationPortrait;
+        // Setting to Portrait does weird things
+        _videoOrientation = UIInterfaceOrientationLandscapeRight;
 }
 
 - (void)processAsset
