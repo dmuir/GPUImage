@@ -22,6 +22,7 @@
 @synthesize runBenchmark = _runBenchmark;
 @synthesize playAtActualSpeed = _playAtActualSpeed;
 @synthesize videoOrientation = _videoOrientation;
+@synthesize delegate = _delegate;
 
 #pragma mark -
 #pragma mark Initialization and teardown
@@ -200,6 +201,9 @@
 
         if (reader.status == AVAssetWriterStatusCompleted) {
                 [weakSelf endProcessing];
+            if ([self.delegate respondsToSelector:@selector(didCompletePlayingMovie)]) {
+                [self.delegate didCompletePlayingMovie];
+            }
         }
     }
 }
