@@ -205,6 +205,13 @@ NSString *const kGPUImageYUVVideoRangeConversionForLAFragmentShaderString = SHAD
 		if ([device position] == cameraPosition)
 		{
 			_inputCamera = device;
+            if ([_inputCamera respondsToSelector:@selector(isLowLightBoostSupported)]) {
+                if ([_inputCamera lockForConfiguration:nil]) {
+                    if (_inputCamera.isLowLightBoostSupported)
+                        _inputCamera.automaticallyEnablesLowLightBoostWhenAvailable = NO;
+                    [_inputCamera unlockForConfiguration];
+                }
+            }
 		}
 	}
     
@@ -278,6 +285,14 @@ NSString *const kGPUImageYUVVideoRangeConversionForLAFragmentShaderString = SHAD
 //        conn.videoMinFrameDuration = CMTimeMake(1,60);
 //    if (conn.supportsVideoMaxFrameDuration)
 //        conn.videoMaxFrameDuration = CMTimeMake(1,60);
+    
+    // Enforce constant 30 fps video (tested on iPhone 4S so far).
+    AVCaptureConnection *conn = [videoOutput connectionWithMediaType:AVMediaTypeVideo];
+
+    if (conn.supportsVideoMinFrameDuration)
+        conn.videoMinFrameDuration = CMTimeMake(1,30);
+    if (conn.supportsVideoMaxFrameDuration)
+        conn.videoMaxFrameDuration = CMTimeMake(1,30);
     
     [_captureSession commitConfiguration];
     
