@@ -26,7 +26,7 @@
  */
 @property(readwrite, nonatomic) BOOL playAtActualSpeed;
 
-/** This is used to send the delete Movie did complete playing alert
+/** This is used to send the delegate Movie did complete playing alert
  */
 @property (readwrite, nonatomic, assign) id <GPUImageMovieDelegate>delegate;
 
