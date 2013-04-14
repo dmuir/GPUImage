@@ -861,6 +861,7 @@ void dataProviderUnlockCallback (void *info, const void *data, size_t size)
         {
             CGRect insetRect = AVMakeRectWithAspectRatioInsideRect(newSize, CGRectMake(0.0, 0.0, forcedMaximumSize.width, forcedMaximumSize.height));
             inputTextureSize = insetRect.size;
+            [self recreateFilterFBO];
             return;
         }
     }
