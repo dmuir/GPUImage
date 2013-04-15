@@ -285,15 +285,7 @@ NSString *const kGPUImageYUVVideoRangeConversionForLAFragmentShaderString = SHAD
 //        conn.videoMinFrameDuration = CMTimeMake(1,60);
 //    if (conn.supportsVideoMaxFrameDuration)
 //        conn.videoMaxFrameDuration = CMTimeMake(1,60);
-    
-    // Enforce constant 30 fps video (tested on iPhone 4S so far).
-    AVCaptureConnection *conn = [videoOutput connectionWithMediaType:AVMediaTypeVideo];
-
-    if (conn.supportsVideoMinFrameDuration)
-        conn.videoMinFrameDuration = CMTimeMake(1,30);
-    if (conn.supportsVideoMaxFrameDuration)
-        conn.videoMaxFrameDuration = CMTimeMake(1,30);
-    
+        
     [_captureSession commitConfiguration];
     
 	return self;
